@@ -1541,9 +1541,30 @@
     </section>
   </main>
   <footer>
-    <div class="w">© 2026 Fayzulloh Shukurov</div>
+    <div class="w">© 2026 Fayzulloh Shukurov<span id="vcw" hidden> · Ko'rishlar: <b id="vc"></b></span></div>
   </footer>
 
+  <script>/* Bot shu blokni o'zi yangilaydi: DATA_START va DATA_END belgilarini o'chirmang */
+    /*DATA_START*/var SITE_DATA={"v": 1, "photo": "Image/portfolio-rasm.jpg", "certs": [{"t": "Ingliz tili B2", "d": "Milliy sertifikat"}, {"t": "Frontend Junior", "d": "Kursni tugatib olingan sertifikat"}, {"t": "Nemis tili", "d": "O'quv kursi, hozir davom etmoqda"}, {"t": "Matematika", "d": "O'quv kursi, hozir davom etmoqda"}], "tracks": [{"t": "505", "a": "Arctic Monkeys", "s": "music/505.mp3"}, {"t": "Self Aware", "a": "", "s": "music/self-aware.mp3"}, {"t": "Die with a Smile", "a": "Lady Gaga, Bruno Mars", "s": "music/die-with-a-smile.mp3"}, {"t": "Sweater Weather", "a": "The Neighbourhood", "s": "music/sweater-weather.mp3"}]};/*DATA_END*/
+    (function () {
+      var D = window.SITE_DATA || {};
+      var sw = document.querySelector('#certs .sw');
+      if (sw && D.certs && D.certs.length) {
+        sw.textContent = '';
+        D.certs.forEach(function (c, i) {
+          var d = document.createElement('div'); d.className = 'cd';
+          var n = document.createElement('i'); n.textContent = (i < 9 ? '0' : '') + (i + 1);
+          var h = document.createElement('h3'); h.textContent = c.t;
+          var p = document.createElement('p'); p.textContent = c.d || '';
+          d.appendChild(n); d.appendChild(h); d.appendChild(p); sw.appendChild(d);
+        });
+      }
+      if (D.v > 1) {
+        var im = document.querySelector('.fr img'); if (im) im.src = D.photo + '?v=' + D.v;
+        var ic = document.querySelector('link[rel=icon]'); if (ic) ic.href = D.photo + '?v=' + D.v;
+      }
+    })();
+  </script>
   <script>
     (function () {
       var ld = document.getElementById('ld'), pc = document.getElementById('pc'), pb = document.getElementById('pb'), p = 0;
@@ -1625,7 +1646,7 @@
       try { var sl = localStorage.getItem('lang'); if (sl === 'en' || sl === 'ru') setLang(sl); } catch (e) { }
 
       /* PLEYER: audio fayllarni music/ papkasiga qo'ying va yo'llarni (s) shu yerda o'zgartiring */
-      var TRACKS = [{ t: '505', a: 'Arctic Monkeys', s: 'music/505.mp3' }, { t: 'Self Aware', a: '', s: 'music/self-aware.mp3' }, { t: 'Die with a Smile', a: 'Lady Gaga, Bruno Mars', s: 'music/die-with-a-smile.mp3' }, { t: 'Sweater Weather', a: 'The Neighbourhood', s: 'music/sweater-weather.mp3' }];
+      var TRACKS = (window.SITE_DATA && SITE_DATA.tracks && SITE_DATA.tracks.length) ? SITE_DATA.tracks : [{ t: '505', a: 'Arctic Monkeys', s: 'music/505.mp3' }, { t: 'Self Aware', a: '', s: 'music/self-aware.mp3' }, { t: 'Die with a Smile', a: 'Lady Gaga, Bruno Mars', s: 'music/die-with-a-smile.mp3' }, { t: 'Sweater Weather', a: 'The Neighbourhood', s: 'music/sweater-weather.mp3' }];
       var au = new Audio(), ix = 0, want = false, $ = function (i) { return document.getElementById(i); };
       var IP = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>', IU = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
       var MS = { uz: "Audio fayl topilmadi. Qo'shiq faylini music/ papkasiga joylang.", en: 'Audio file not found. Put the song file in the music/ folder.', ru: 'Аудиофайл не найден. Поместите файл песни в папку music/.' };
@@ -1672,6 +1693,20 @@
         else if (document.startViewTransition) { document.startViewTransition(ap); }
         else { R.classList.add('tt'); ap(); setTimeout(function () { R.classList.remove('tt'); }, 700); }
       });
+    })();
+  </script>
+  <!-- Analitika: tashrif signali botga yuboriladi (/api/track) -->
+  <script>
+    (function () {
+      if (location.protocol === 'file:' || location.hostname === 'localhost') return; /* o'z sinovlaringiz hisoblanmasin */
+      var id = '';
+      try { id = localStorage.getItem('vid'); if (!id) { id = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('vid', id); } } catch (e) { }
+      if (!id) id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      var src = new URLSearchParams(location.search).get('ref') || '';
+      fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, src: src, ref: document.referrer || '' }) })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d && d.total) { document.getElementById('vc').textContent = d.total; document.getElementById('vcw').hidden = false; } })
+        .catch(function () { });
     })();
   </script>
 </body>
