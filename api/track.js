@@ -33,6 +33,8 @@ module.exports = async (req, res) => {
     const total = Number(await rd(['GET', 'uniq:total'])) || 0;
     res.status(200).json({ total });
   } catch (e) {
-    res.status(200).json({});
+    // Tashrifchiga ma'lumot ko'rsatmaymiz, ammo Vercel logida asl sabab saqlanadi.
+    console.error('Portfolio analytics xatosi:', e && e.message ? e.message : e);
+    res.status(503).json({ error: 'analytics_unavailable' });
   }
 };

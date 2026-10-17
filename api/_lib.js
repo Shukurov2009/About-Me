@@ -1,12 +1,30 @@
 // Umumiy yordamchilar (api/_lib.js: nomi _ bilan boshlangani uchun alohida manzil bo'lmaydi)
-const T = process.env.BOT_TOKEN;
-const OWNER = Number(process.env.OWNER_ID);
-const RU = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
-const RT = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+const E = process.env;
+const T = E.BOT_TOKEN;
+const OWNER = Number(E.OWNER_ID);
+
+// Redis o'zgaruvchilari: avval standart nomlar, topilmasa har qanday prefiks (STORAGE_, KV_, UPSTASH_ ...)
+let RU = E.UPSTASH_REDIS_REST_URL || E.KV_REST_API_URL;
+let RT = E.UPSTASH_REDIS_REST_TOKEN || E.KV_REST_API_TOKEN;
+let RN = E.UPSTASH_REDIS_REST_URL ? 'UPSTASH_REDIS_REST_URL' : (E.KV_REST_API_URL ? 'KV_REST_API_URL' : '');
+if (!RU || !RT) {
+  const k = Object.keys(E).find(n => /(REDIS_REST_URL|REST_API_URL)$/.test(n) && E[n] && E[n.replace(/URL$/, 'TOKEN')]);
+  if (k) { RU = E[k]; RT = E[k.replace(/URL$/, 'TOKEN')]; RN = k; }
+}
 
 async function rd(cmd) {
-  const r = await fetch(RU, { method: 'POST', headers: { Authorization: 'Bearer ' + RT }, body: JSON.stringify(cmd) });
-  const j = await r.json();
+  if (!RU || !RT) {
+    throw new Error("Redis sozlanmagan. Vercel Storage orqali Upstash Redis ulang, loyihani Redeploy qiling va botda /diag yuboring.");
+  }
+  const r = await fetch(RU, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + RT, 'Content-Type': 'application/json' },
+    body: JSON.stringify(cmd.map(String))
+  });
+  const body = await r.text();
+  let j;
+  try { j = JSON.parse(body); } catch (_) { throw new Error("Redis noto'g'ri javob qaytardi (HTTP " + r.status + ")."); }
+  if (!r.ok || j.error) throw new Error('Redis xatosi: ' + (j.error || ('HTTP ' + r.status)));
   return j.result;
 }
 async function tg(method, payload) {
@@ -19,4 +37,17 @@ async function tg(method, payload) {
 const day = (o = 0) => new Date(Date.now() + 5 * 3600e3 - o * 864e5).toISOString().slice(0, 10);
 const clock = () => new Date(Date.now() + 5 * 3600e3).toISOString().slice(11, 16);
 
-module.exports = { rd, tg, OWNER, T, day, clock };
+// /diag buyrug'i: analitika uchun kerakli narsalarni tekshiradi (qiymatlarni ko'rsatmaydi, faqat nomlar va holat)
+async function diag() {
+  const L = ['Redis manzili: ' + (RN || (RU ? 'bor' : 'TOPILMADI')), 'Redis tokeni: ' + (RT ? 'bor' : 'TOPILMADI')];
+  if (RU && RT) {
+    try {
+      await rd(['SET', 'diag:test', '1', 'EX', 60]);
+      L.push("Redis yozish/o'qish: " + ((await rd(['GET', 'diag:test'])) === '1' ? 'OK' : "noto'g'ri javob"));
+    } catch (e) { L.push('Redis: XATO. ' + e.message); }
+  }
+  L.push('Bot tokeni: ' + (T ? 'bor' : "YO'Q"), 'Owner ID: ' + (OWNER ? 'bor' : "YO'Q"));
+  return L.join('\n');
+}
+
+module.exports = { rd, tg, OWNER, T, day, clock, diag };

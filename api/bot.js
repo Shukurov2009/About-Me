@@ -1,5 +1,5 @@
 // Telegram bot (webhook): /api/bot
-const { rd, tg, OWNER, T, day } = require('./_lib');
+const { rd, tg, OWNER, T, day, diag } = require('./_lib');
 
 const REPO = process.env.GITHUB_REPO;
 const BR = process.env.GITHUB_BRANCH || 'main';
@@ -73,6 +73,7 @@ const HELP = `Portfolyo boti. Buyruqlar:
 
 /stat: tashriflar statistikasi
 /xabar on yoki /xabar off: har tashrifda xabar kelishini yoqish/o'chirish
+/diag: analitika sozlamalarini tekshirish
 
 Eslatma: o'zgarishlar saytda 1-2 daqiqada ko'rinadi.`;
 
@@ -136,6 +137,7 @@ async function handle(m) {
         keys.map((k, i) => k.slice(5) + ': ' + (vals[i] || 0)).join('\n') +
         '\n\nJami tashrif: ' + (tot || 0) + '\nNechta odam ko\'rgan: ' + (uniq || 0));
     }
+    case '/diag': return say(c, await diag());
     default: return say(c, "Tushunmadim. /help ni bosing.");
   }
 }
