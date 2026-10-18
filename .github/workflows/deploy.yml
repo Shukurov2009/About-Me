@@ -1,0 +1,26 @@
+name: Hostra'ga joylash
+on:
+  push:
+    branches: [main, master]   # repo asosiy shoxi qaysi nomda bo'lsa ham ishlaydi
+  workflow_dispatch:        # qo'lda ishga tushirish tugmasi
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP orqali Hostra'ga yuklash
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DIR }}      # masalan: /public_html/  (oxirida / bo'lsin)
+          # protocol: ftps                         # Hostra FTPS talab qilsa, shu qatorni oching
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            api/**
+            .github/**
+            vercel.json
+            README-SETUP.txt
