@@ -1703,7 +1703,7 @@
       try { id = localStorage.getItem('vid'); if (!id) { id = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('vid', id); } } catch (e) { }
       if (!id) id = Math.random().toString(36).slice(2) + Date.now().toString(36);
       var src = new URLSearchParams(location.search).get('ref') || '';
-      fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, src: src, ref: document.referrer || '' }) })
+      fetch('https://about-me-kohl-theta.vercel.app/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, src: src, ref: document.referrer || '' }) })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (d) { if (d && d.total) { document.getElementById('vc').textContent = d.total; document.getElementById('vcw').hidden = false; } })
         .catch(function () { });
