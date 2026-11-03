@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Fayzulloh Shukurov | Kiber xavfsizlik</title>
   <meta name="description"
-    content="Fayzulloh Shukurov: kiber xavfsizlik yo'nalishidagi o'quvchi, frontend, nemis va ingliz tillari, AgroServ loyihasi.">
+    content="Fayzulloh Shukurov: kiber xavfsizlik yo'nalishidagi o'quvchi, frontend, nemis va ingliz tillari. Loyihalar: AgroServ, @makmonitoring, anonim baholash.">
   <meta name="theme-color" content="#0a0d10">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap"
@@ -647,6 +647,10 @@
       overflow: hidden
     }
 
+    .pj+.pj {
+      margin-top: 18px
+    }
+
     .pa {
       min-height: 240px;
       display: grid;
@@ -656,6 +660,15 @@
       font-weight: 700;
       font-size: clamp(2.4rem, 8vw, 3.6rem);
       color: var(--acink)
+    }
+
+    .pa.long {
+      padding: 24px;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: -.01em;
+      overflow-wrap: anywhere;
+      font-size: clamp(1.45rem, 4.6vw, 2.35rem)
     }
 
     .pb {
@@ -1412,7 +1425,7 @@
         <div class="st rv">
           <div><b data-n="2">0</b><span>Sertifikat</span></div>
           <div><b data-n="2">0</b><span>O'quv kursi</span></div>
-          <div><b data-n="1">0</b><span>Shaxsiy loyiha</span></div>
+          <div><b data-n="3">0</b><span>Shaxsiy loyiha</span></div>
         </div>
       </div>
     </section>
@@ -1446,8 +1459,8 @@
 
     <section id="project">
       <div class="w">
-        <div class="sh rv"><span class="kick">Loyiha</span>
-          <h2>Mening loyiham</h2>
+        <div class="sh rv"><span class="kick">Loyihalar</span>
+          <h2>Mening loyihalarim</h2>
         </div>
         <div class="pj rv">
           <div class="pa">AgroServ</div>
@@ -1459,6 +1472,26 @@
             <p class="note"><b>Eslatma:</b> loyiha hali tugallanmagan. Telefonda interfeys sochilib ketishi yoki
               chiroyli ko'rinmasligi mumkin.</p>
             <div class="cta"><a class="btn p" href="https://agroserv-lake.vercel.app/" target="_blank"
+                rel="noopener">Saytni ochish</a></div>
+          </div>
+        </div>
+        <div class="pj rv">
+          <div class="pa long">@makmonitoring</div>
+          <div class="pb">
+            <span class="pill">Telegram bot</span>
+            <h3>@makmonitoring</h3>
+            <p>Telegramda ishlaydigan monitoring bot: kerakli ma'lumotlarni kuzatib boradi va natijalarni tezkor yetkazadi.</p>
+            <div class="cta"><a class="btn p" href="https://t.me/makmonitoring" target="_blank"
+                rel="noopener">Botni ochish</a></div>
+          </div>
+        </div>
+        <div class="pj rv">
+          <div class="pa long">Anonim baholash</div>
+          <div class="pb">
+            <span class="pill">Onlayn platforma</span>
+            <h3>Anonim baholash</h3>
+            <p>O'qituvchilarni anonim baholash platformasi. O'quvchilar xolis baho va izoh qoldiradi, izohlar anonim qoladi.</p>
+            <div class="cta"><a class="btn p" href="https://baholash-vrln-xi.vercel.app/" target="_blank"
                 rel="noopener">Saytni ochish</a></div>
           </div>
         </div>
@@ -1617,7 +1650,13 @@
         'Milliy sertifikat': ['National certificate', 'Национальный сертификат'], 'Frontend Junior': ['Frontend Junior', 'Фронтенд Junior'],
         'Kursni tugatib olingan sertifikat': ['Certificate earned after finishing the course', 'Сертификат после окончания курса'],
         "O'quv kursi, hozir davom etmoqda": ['Course, currently ongoing', 'Курс, продолжается сейчас'], '← Yon tomonga suring →': ['← Swipe sideways →', '← Листайте в сторону →'],
-        'Mening loyiham': ['My project', 'Мой проект'], 'Ustida ishlanmoqda': ['In progress', 'В разработке'],
+        'Loyihalar': ['Projects', 'Проекты'], 'Mening loyihalarim': ['My projects', 'Мои проекты'], 'Ustida ishlanmoqda': ['In progress', 'В разработке'],
+        'Telegram bot': ['Telegram bot', 'Telegram-бот'],
+        "Telegramda ishlaydigan monitoring bot: kerakli ma'lumotlarni kuzatib boradi va natijalarni tezkor yetkazadi.": ['A Telegram monitoring bot that tracks the information you need and delivers results promptly.', 'Telegram-бот для мониторинга: отслеживает нужную информацию и оперативно присылает результаты.'],
+        'Botni ochish': ['Open the bot', 'Открыть бота'],
+        'Anonim baholash': ['Anonymous rating', 'Анонимное оценивание'],
+        "O'qituvchilarni anonim baholash platformasi. O'quvchilar xolis baho va izoh qoldiradi, izohlar anonim qoladi.": ['A platform for anonymous teacher evaluation. Students leave fair ratings and comments, and the comments stay anonymous.', 'Платформа анонимной оценки учителей. Ученики ставят объективные оценки и оставляют комментарии, комментарии остаются анонимными.'],
+        'Onlayn platforma': ['Online platform', 'Онлайн-платформа'],
         "Qishloq xo'jaligiga oid xizmatlarni bir joyda jamlashni maqsad qilgan veb-sayt. Unda yangiliklar, do'kon, xizmatlar va texnikalar bo'limlari mavjud.": ['A website that aims to bring agricultural services together in one place. It has news, shop, services and machinery sections.', 'Сайт, который собирает сельскохозяйственные услуги в одном месте. Есть разделы новостей, магазина, услуг и техники.'],
         'Eslatma:': ['Note:', 'Примечание:'],
         "loyiha hali tugallanmagan. Telefonda interfeys sochilib ketishi yoki chiroyli ko'rinmasligi mumkin.": ['the project is not finished yet. On a phone the interface may break or look unpolished.', 'проект ещё не завершён. На телефоне интерфейс может разъезжаться или выглядеть некрасиво.'],
